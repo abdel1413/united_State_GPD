@@ -117,7 +117,8 @@ const w = 800;
 const h = 400;
 const padding = 40;
 let data,
-  dataset = [];
+  dataset = [],
+  tooltip;
 let yScale, xScale, xAxisScale, yAxisScale;
 const svg = d3.select("body").append("svg");
 const drawCanvas = () => {
@@ -152,15 +153,47 @@ const generateScales = () => {
     .range([h - padding, padding]);
 };
 
+const mouseoverHandler = (d, i) => {
+  console.log(i);
+  tooltip
+    .transition()
+    .style("visibility", "visible")
+    .attr("data-date", i[0])
+    .style("opacity", 0.8)
+    .style("left", event.pageX + 5 + "px")
+    .style("top", event.pageY + 10 + "px")
+    .text(`Date:${i[0]} $${i[1]} Billions `);
+
+  d3.select(this).style("opacity", 1);
+
+  document.querySelector("#tooltip").setAttribute("data-date", i[0]);
+};
+
+//
+const mousemoveHandler = (d) => {
+  tooltip
+    .style("top", event.pageY + 5 + "px")
+    .style("left", event.pageX + 10 + "px");
+  d3.select(this).style("opacity", 0.8);
+};
+
+const mouseoutHandler = () => {
+  tooltip.transition().style("visibility", "hidden").style("opacity", 0);
+  //d3.select("opacity", 1);
+};
+
 const drawBars = () => {
   // create a tooltip to display more info
-  const tooltip = d3
+
+  tooltip = d3
     .select("body")
     .append("div")
     .attr("id", "tooltip")
-    .style("visibility", "hidden")
-    .style("width", "auto")
-    .style("height", "auto");
+    .style("border", "1px solid #000")
+    .style("position", "absolute")
+    .style("background", "#fff")
+    .style("border-radius", "10px")
+    .style("visibility", "hidden");
 
   svg
     .selectAll("rect")
@@ -171,7 +204,7 @@ const drawBars = () => {
     .style("fill", "orange")
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1])
-    .attr("width", (w - 2 * padding) / dataset.length)
+    .attr("width", (w - padding) / dataset.length)
     .attr("height", (d, i) => {
       return yScale(d[1]);
     })
@@ -181,18 +214,9 @@ const drawBars = () => {
     .attr("y", (d, i) => {
       return h - padding - yScale(d[1]);
     })
-    .on("mouseover", (d, i) => {
-      tooltip
-        .transition()
-        .style("visibility", "visible")
-        .text(i[0])
-
-        .attr("data-date", i[0]);
-      // document.querySelector("#tooltip").setAttribute("data-date", i[0]);
-    })
-    .on("mouseout", () => {
-      tooltip.transition().style("visibility", "hidden");
-    });
+    .on("mouseover", mouseoverHandler)
+    .on("mousemove", mousemoveHandler)
+    .on("mouseout", mouseoutHandler);
 };
 
 const generateAxis = () => {
