@@ -13,6 +13,24 @@ body {
   text-align: center;
 }
 
+svg {
+  background-color: chartreuse;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .svg-container {
   border: 1px solid red;
+}
+
+#tooltip {
+  border: 1px solid #000;
+  background-color: cornflowerblue;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.bar:hover {
+  background-color: #fff;
 }
