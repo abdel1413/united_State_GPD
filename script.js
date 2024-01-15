@@ -154,19 +154,22 @@ const generateScales = () => {
 };
 
 const mouseoverHandler = (d, i) => {
-  console.log(i);
+  //.style("left", event.pageX + 5 + "px")
+  //  .style("top", event.pageY + 10 + "px")
+  console.log("d", dataset[0][0]);
+  console.log(i[0]);
+
   tooltip
     .transition()
     .style("visibility", "visible")
     .attr("data-date", i[0])
     .style("opacity", 0.8)
-    .style("left", event.pageX + 5 + "px")
-    .style("top", event.pageY + 10 + "px")
-    .text(`Date:${i[0]} $${i[1]} Billions `);
 
-  d3.select(this).style("opacity", 1);
+    .text(`Date:${i[0]} $${i[1]} Billions`);
+  // .style("top", event.pageY + 5 + "px")
+  // .style("left", event.pageX + 10 + "px");
 
-  document.querySelector("#tooltip").setAttribute("data-date", i[0]);
+  // document.querySelector("#tooltip").setAttribute("data-date", i[0]);
 };
 
 //
@@ -174,7 +177,12 @@ const mousemoveHandler = (d) => {
   tooltip
     .style("top", event.pageY + 5 + "px")
     .style("left", event.pageX + 10 + "px");
-  d3.select(this).style("opacity", 0.8);
+  // tooltip
+  //   .style("top", d3.select(this).style("x") + "px")
+  //   .style("left", d3.select(this).style("y") + "px");
+  // tooltip
+  //   .style("top", d3.mouse(this)[1] + 10 + "px")
+  //   .style("left", d3.mouse(this)[0] + 15 + "px");
 };
 
 const mouseoutHandler = () => {
