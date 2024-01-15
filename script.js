@@ -119,11 +119,30 @@ const padding = 40;
 let data,
   dataset = [],
   tooltip;
+let Gr_product;
 let yScale, xScale, xAxisScale, yAxisScale;
 const svg = d3.select("body").append("svg");
-const drawCanvas = () => {
-  svg.attr("width", w);
-  svg.attr("height", h);
+
+const drawCanvas = (Gr_product) => {
+  console.log(Gr_product);
+  svg.attr("width", w).attr("height", h);
+  const ling = svg
+    .append("text")
+    .attr("x", "100")
+    .attr("y", "-50")
+    .text(Gr_product)
+    .attr("transform", "rotate(90)")
+    .style("color", "white");
+
+  svg
+    .append("text")
+    .attr("x", "400")
+    .attr("y", "395")
+    .html(
+      "More info: <a href='https://www.google.com/search?sca_esv=598539381&q=us+gdp&spell=1&sa=X&ved=2ahUKEwjo79udnt-DAxVjl4kEHXlTDLMQBSgAegQICxAC&biw=1093&bih=526&dpr=1.25'>https://www.google.com/search?sca_esv=598539381&q=us+gdp</a>"
+    )
+    .attr("target", "_blank")
+    .style("font-size", "12px");
 };
 
 const generateScales = () => {
@@ -156,8 +175,6 @@ const generateScales = () => {
 const mouseoverHandler = (d, i) => {
   //.style("left", event.pageX + 5 + "px")
   //  .style("top", event.pageY + 10 + "px")
-  console.log("d", dataset[0][0]);
-  console.log(i[0]);
 
   tooltip
     .transition()
@@ -168,8 +185,6 @@ const mouseoverHandler = (d, i) => {
     .text(`Date:${i[0]} $${i[1]} Billions`);
   // .style("top", event.pageY + 5 + "px")
   // .style("left", event.pageX + 10 + "px");
-
-  // document.querySelector("#tooltip").setAttribute("data-date", i[0]);
 };
 
 //
@@ -248,9 +263,14 @@ req.open("GET", url, true);
 req.onload = () => {
   data = JSON.parse(req.responseText);
 
+  let string = data.name;
+
+  Gr_product = string.split(",")[0];
+  console.log(Gr_product);
+
   dataset = data.data;
 
-  drawCanvas();
+  drawCanvas(Gr_product);
   generateScales();
   drawBars();
   generateAxis();
