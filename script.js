@@ -181,6 +181,7 @@ const generateScales = () => {
 const mouseoverHandler = (d, i) => {
   //.style("left", event.pageX + 5 + "px")
   //  .style("top", event.pageY + 10 + "px")
+  console.log("i", typeof i[0]);
 
   tooltip
     .transition()
@@ -211,14 +212,15 @@ const mouseoutHandler = () => {
   //d3.select("opacity", 1);
 };
 
-const drawBars = (d, i) => {
+const drawBars = (d) => {
   // create a tooltip to display more info
+  console.log("dads", d.data[0]);
 
   tooltip = d3
     .select("body")
     .append("div")
     .attr("id", "tooltip")
-    .attr("data-date", () => dataset[0][0])
+    .attr("data-date", () => d.data[0][0])
     .style("border", "1px solid #000")
     .style("position", "absolute")
     .style("background", "#fff")
