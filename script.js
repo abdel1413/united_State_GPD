@@ -121,28 +121,34 @@ let data,
   tooltip;
 let Gr_product;
 let yScale, xScale, xAxisScale, yAxisScale;
-const svg = d3.select("body").append("svg");
+const svg = d3
+  .select("body")
+  .append("div")
+  .attr("class", "container")
+  .append("h1")
+  .attr("id", "title")
+  .text("United State GDP")
+  .append("svg");
 
 const drawCanvas = (Gr_product) => {
-  console.log(Gr_product);
   svg.attr("width", w).attr("height", h);
-  const ling = svg
+  const link = svg
     .append("text")
-    .attr("x", "100")
+    .attr("x", "50")
     .attr("y", "-50")
+    .style("font-size", "1.2rem")
     .text(Gr_product)
-    .attr("transform", "rotate(90)")
-    .style("color", "white");
+    .attr("transform", "rotate(90)");
 
   svg
     .append("text")
-    .attr("x", "400")
-    .attr("y", "395")
+    .attr("x", "500")
+    .attr("y", "400")
     .html(
-      "More info: <a href='https://www.google.com/search?sca_esv=598539381&q=us+gdp&spell=1&sa=X&ved=2ahUKEwjo79udnt-DAxVjl4kEHXlTDLMQBSgAegQICxAC&biw=1093&bih=526&dpr=1.25'>https://www.google.com/search?sca_esv=598539381&q=us+gdp</a>"
+      "More info: <a href='https://www.google.com/search?sca_esv=598539381&q=us+gdp&spell=1&sa=X&ved=2ahUKEwjo79udnt-DAxVjl4kEHXlTDLMQBSgAegQICxAC&biw=1093&bih=526&dpr=1.25'>https://www.google.com/search</a>"
     )
     .attr("target", "_blank")
-    .style("font-size", "12px");
+    .style("font-size", "15px");
 };
 
 const generateScales = () => {
@@ -181,7 +187,6 @@ const mouseoverHandler = (d, i) => {
     .style("visibility", "visible")
     .attr("data-date", i[0])
     .style("opacity", 0.8)
-
     .text(`Date:${i[0]} $${i[1]} Billions`);
   // .style("top", event.pageY + 5 + "px")
   // .style("left", event.pageX + 10 + "px");
@@ -192,6 +197,7 @@ const mousemoveHandler = (d) => {
   tooltip
     .style("top", event.pageY + 5 + "px")
     .style("left", event.pageX + 10 + "px");
+
   // tooltip
   //   .style("top", d3.select(this).style("x") + "px")
   //   .style("left", d3.select(this).style("y") + "px");
@@ -205,13 +211,14 @@ const mouseoutHandler = () => {
   //d3.select("opacity", 1);
 };
 
-const drawBars = () => {
+const drawBars = (d, i) => {
   // create a tooltip to display more info
 
   tooltip = d3
     .select("body")
     .append("div")
     .attr("id", "tooltip")
+    .attr("data-date", () => dataset[0][0])
     .style("border", "1px solid #000")
     .style("position", "absolute")
     .style("background", "#fff")
@@ -224,7 +231,7 @@ const drawBars = () => {
     .enter()
     .append("rect")
     .attr("class", "bar")
-    .style("fill", "orange")
+    .style("fill", "blue")
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1])
     .attr("width", (w - padding) / dataset.length)
@@ -266,13 +273,12 @@ req.onload = () => {
   let string = data.name;
 
   Gr_product = string.split(",")[0];
-  console.log(Gr_product);
 
   dataset = data.data;
 
   drawCanvas(Gr_product);
   generateScales();
-  drawBars();
+  drawBars(data);
   generateAxis();
 };
 req.send();

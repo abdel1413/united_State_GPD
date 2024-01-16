@@ -4,28 +4,28 @@
   text-align: center;
 }
 
-#title {
-  color: #fff;
-}
-
 body {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  align-items: center;
-  background-color: rgb(77, 72, 72);
+  margin: 80px auto;
+  background-color: rgb(95, 95, 230);
 
   text-align: center;
 }
 
+.container {
+  box-shadow: 2px 3px 4px 8px rgba(51, 51, 92, 0.4);
+  background-color: #e9f6fd;
+}
 svg {
-  background-color: chartreuse;
+  background-color: #e9f6fd;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: black;
+  /* box-shadow: 0px 0px 4px 8px rgb(77, 72, 72); */
 }
 
 #tooltip {
