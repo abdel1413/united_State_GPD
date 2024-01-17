@@ -37,12 +37,14 @@ svg {
 }
 .bar {
   cursor: pointer;
-  width: 0.5rem;
+
   background-color: #fff;
+  stroke: #e9f6fd;
 }
 
 .bar:hover {
   padding: 2rem;
-  background: white;
+  background-color: white;
   color: black;
+  stroke: black;
 }
